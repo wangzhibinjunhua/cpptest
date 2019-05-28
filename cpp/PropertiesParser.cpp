@@ -97,7 +97,11 @@ std::string PropertiesParser::ReadData(const std::string& file, const std::strin
 		PropertiesParser::Write(file, props);
 		
 	}
-	fin.close();
+	else
+	{
+		fin.close();
+	}
+	
 	Properties properties= PropertiesParser::Read(file);
 	std::string value = properties.GetProperty(key,"");
 	return value;
@@ -112,7 +116,11 @@ int PropertiesParser::WriteData(const std::string& file, const std::string& key,
 		PropertiesParser::Write(file, props);
 
 	}
-	fin.close();
+	else
+	{
+		fin.close();
+	}
+	
 	Properties properties = PropertiesParser::Read(file);
 	properties.AddProperty(key, value);
 	try
@@ -125,6 +133,41 @@ int PropertiesParser::WriteData(const std::string& file, const std::string& key,
 	}
 	
 	return 0;
+}
+
+int PropertiesParser::RemoveData(const std::string& file, const std::string& key)
+{
+	std::ifstream fin(file.c_str());
+	if (!fin) {
+		return 0;
+	}
+	fin.close();
+
+	Properties properties = PropertiesParser::Read(file);
+	std::ofstream os;
+	os.open(file.c_str());
+	if (!os.is_open()) {
+		return -1;
+	}
+	try
+	{
+		properties.RemoveProperty(key);
+		const std::vector<std::string>& keys = properties.GetPropertyNames();
+		for (std::vector<std::string>::const_iterator i = keys.begin();
+			i != keys.end(); ++i) {
+			os << *i << " = " << properties.GetProperty(*i) << std::endl;
+		}
+
+		os.close();
+	}
+	catch (const std::exception&)
+	{
+		os.close();
+		//return -1;
+	}
+	
+	return 0;
+
 }
 
 //end

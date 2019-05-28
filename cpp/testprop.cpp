@@ -2,16 +2,20 @@
 #include <string.h>
 #include <stdio.h>
 #include "PropertiesParser.h"
+#include <string>
 using namespace std;
 using namespace cppproperties;
 
 void testwrite()
 {
-	Properties props=PropertiesParser::Read("11.properties");;
-	props.AddProperty("key1001", "value100");
-	props.AddProperty("key2001", "value200");
-	props.AddProperty("key300", "value3001");
-	PropertiesParser::Write("11.properties", props);
+	//string rv = PropertiesParser::ReadData("wzb1.prop", "key1");
+	//cout << "rv=" << rv << endl;
+	//int ret = PropertiesParser::WriteData("wzb1.prop", "key1", "a1231");
+	//cout << "ret=" << ret << endl;
+	int ret = PropertiesParser::WriteData("wzb2.prop", "key2", "baaa33222");
+	cout << "ret1=" << ret << endl;
+	//int ret = PropertiesParser::RemoveData("wzb2.prop", "key1");
+	//cout << "ret2=" << ret << endl;
 }
 int main(int argc,char** argv)
 {
